@@ -6,6 +6,9 @@ inputs:
     default: 'Artifact'
   path:
     required: true
+  retention-days:
+    required: false
+    default: 3
 runs:
   using: "composite"
   steps:
@@ -13,3 +16,4 @@ runs:
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}
+        retention-days: ${{ inputs.retention-days }}
