@@ -1,0 +1,15 @@
+name: 'Artifact'
+description: 'An action to create a artifact'
+inputs:
+  name:
+    required: true
+    default: 'Artifact'
+  path:
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/upload-artifact@v3
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}
