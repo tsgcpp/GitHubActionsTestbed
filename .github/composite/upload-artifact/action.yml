@@ -1,4 +1,4 @@
-name: 'Artifact'
+name: 'Upload Artifact'
 description: 'An action to create a artifact'
 inputs:
   name:
