@@ -1,7 +1,7 @@
 name: 'Set Up Actions'
 inputs:
   pathRoot:
-    required: false
+    required: true
     description: 'Relative path the actions will be into'
     default: ./.github/repos
   patToken:
@@ -15,31 +15,31 @@ runs:
       with:
         repository: 'actions/checkout'
         ref: v3.0.2
-        path: ${{ inputs.pathRoot }}/actions/checkout
+        path: actions/checkout@v3
 
     - name: Cache actions/cache
-      uses: ${{ inputs.pathRoot }}/actions/checkout
+      uses: actions/checkout@v3
       with:
         repository: 'actions/cache'
         ref: v3.0.8
         path: ${{ inputs.pathRoot }}/actions/cache
 
     - name: Cache actions/upload-artifact
-      uses: ${{ inputs.pathRoot }}/actions/checkout
+      uses: actions/checkout@v3
       with:
         repository: 'actions/upload-artifact'
         ref: v3.1.0
         path: ${{ inputs.pathRoot }}/actions/upload-artifact
 
     - name: Cache actions/download-artifact
-      uses: ${{ inputs.pathRoot }}/actions/checkout
+      uses: actions/checkout@v3
       with:
         repository: 'actions/download-artifact'
         ref: v3.0.0
         path: ${{ inputs.pathRoot }}/actions/download-artifact
 
     - name: Cache actions/setup-dotnet
-      uses: ${{ inputs.pathRoot }}/actions/checkout
+      uses: actions/checkout@v3
       with:
         repository: 'actions/setup-dotnet'
         ref: v2.1.0
