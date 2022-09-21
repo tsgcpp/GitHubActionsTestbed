@@ -44,3 +44,12 @@ runs:
         repository: 'actions/setup-dotnet'
         ref: v2.1.0
         path: ${{ inputs.pathRoot }}/actions/setup-dotnet
+
+    - name: Checkout tsgcpp/upload-artifact-private
+      uses: actions/checkout@v3
+      with:
+        # Same with actions/upload-artifact
+        repository: 'tsgcpp/upload-artifact-private'
+        ref: main
+        path: ${{ inputs.pathRoot }}/tsgcpp/upload-artifact-private
+        token: ${{ inputs.patToken }}

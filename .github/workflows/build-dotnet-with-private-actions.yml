@@ -1,4 +1,4 @@
-name: "Build Dotnet with Set Up Actions"
+name: "Build Dotnet with Private Actions"
 
 on:
   workflow_dispatch: {}
@@ -29,10 +29,11 @@ jobs:
       - name: Build Solutions
         run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
 
-      - uses: ./.github/composite/upload-artifact-with-setup-actions
+      - uses: ./.github/repos/tsgcpp/upload-artifact-private
         with:
           name: HelloWorld
           path: ./HelloWorld/bin/Release/net6.0
+          retention-days: 3
 
       - uses: ./.github/repos/actions/download-artifact
         with:
