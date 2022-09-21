@@ -1,0 +1,19 @@
+name: 'Upload Artifact with Cache'
+description: 'An action to create a artifact'
+inputs:
+  name:
+    required: true
+    default: 'Artifact'
+  path:
+    required: true
+  retention-days:
+    required: false
+    default: 3
+runs:
+  using: "composite"
+  steps:
+    - uses: ./.github/repos/actions/upload-artifact
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}
+        retention-days: ${{ inputs.retention-days }}
