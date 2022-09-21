@@ -1,4 +1,4 @@
-name: 'Upload Artifact'
+name: 'Upload Artifact with Cache'
 description: 'An action to create a artifact'
 inputs:
   name:
@@ -12,7 +12,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/upload-artifact@v3
+    - uses: ./.github/repos/actions/upload-artifact
       with:
         name: ${{ inputs.name }}
         path: ${{ inputs.path }}

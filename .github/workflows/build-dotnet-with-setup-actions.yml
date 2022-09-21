@@ -1,0 +1,44 @@
+name: "Build Dotnet with Set Up Actions"
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  execute:
+    name: Composite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - uses: ./.github/composite/setup-actions
+
+      - uses: actions/cache@v3
+        with:
+          path: ./HelloWorld/obj
+          key: dotnet-${{ runner.os }}-${{ github.ref_name }}
+
+      - uses: ./.github/repos/actions/setup-dotnet
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build Solutions
+        run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+
+      - uses: ./.github/composite/upload-artifact-with-setup-actions
+        with:
+          name: HelloWorld
+          path: ./HelloWorld/bin/Release/net6.0
+
+      - uses: ./.github/repos/actions/download-artifact
+        with:
+          name: HelloWorld
+          path: ./bin/artifact
+
+      - name: Run HelloWorld
+        run: |
+          set -eux
+          chmod 777 ./bin/artifact/HelloWorld
+          ./bin/artifact/HelloWorld

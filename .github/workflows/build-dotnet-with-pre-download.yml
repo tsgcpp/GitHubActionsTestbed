@@ -1,0 +1,46 @@
+name: "Build Dotnet with Pre-Download"
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  execute:
+    name: Composite
+    runs-on: ubuntu-latest
+    steps:
+      # Declare to use "actions/upload-artifact@v3" for pre-download
+      - uses: actions/upload-artifact@v3
+        continue-on-error: true
+
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - uses: actions/cache@v3
+        with:
+          path: ./HelloWorld/obj
+          key: dotnet-${{ runner.os }}-${{ github.ref_name }}
+
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build Solutions
+        run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+
+      - uses: ./.github/composite/upload-artifact
+        with:
+          name: HelloWorld
+          path: ./HelloWorld/bin/Release/net6.0
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: HelloWorld
+          path: ./bin/artifact
+
+      - name: Run HelloWorld
+        run: |
+          set -eux
+          chmod 777 ./bin/artifact/HelloWorld
+          ./bin/artifact/HelloWorld
