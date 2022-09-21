@@ -13,6 +13,8 @@ jobs:
           lfs: true
 
       - uses: ./.github/composite/setup-actions
+        with:
+          patToken: ${{ secrets.PAT_TOKEN }}
 
       - uses: actions/cache@v3
         with:
