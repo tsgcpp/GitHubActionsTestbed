@@ -18,29 +18,20 @@ jobs:
 
       - uses: actions/cache@v3
         with:
-          path: ./HelloWorld/obj
+          path: ./Lottery/obj
           key: dotnet-${{ runner.os }}-${{ github.ref_name }}
 
-      - uses: ./.github/repos/actions/setup-dotnet
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: false
-
-      - name: Build Solutions
-        run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+      - uses: ./.github/composite/dotnet-build-with-setup-actions
 
       - uses: ./.github/composite/upload-artifact-with-setup-actions
         with:
-          name: HelloWorld
-          path: ./HelloWorld/bin/Release/net6.0
+          name: Lottery
+          path: ./Lottery/bin/Release/net6.0
 
       - uses: ./.github/repos/actions/download-artifact
         with:
-          name: HelloWorld
-          path: ./bin/artifact
+          name: Lottery
+          path: ./bin
 
-      - name: Run HelloWorld
-        run: |
-          set -eux
-          chmod 777 ./bin/artifact/HelloWorld
-          ./bin/artifact/HelloWorld
+      - name: List Lottery Files
+        run: find ./bin/
