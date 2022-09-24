@@ -1,0 +1,33 @@
+name: "Build Dotnet with Repository Composite Action"
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - uses: actions/cache@v3
+        with:
+          path: ./Lottery/obj
+          key: dotnet-${{ runner.os }}-${{ github.ref_name }}
+
+      - uses: tsgcpp/GitHubActionsTestbed/.github/composite/dotnet-build@main
+
+      - uses: tsgcpp/GitHubActionsTestbed/.github/composite/upload-artifact@main
+        with:
+          name: Lottery
+          path: ./Lottery/bin/Release/net6.0
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: Lottery
+          path: ./bin
+
+      - name: List Artifact Files
+        run: find ./bin/
