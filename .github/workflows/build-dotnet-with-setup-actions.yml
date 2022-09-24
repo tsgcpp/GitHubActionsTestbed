@@ -33,5 +33,5 @@ jobs:
           name: Lottery
           path: ./bin
 
-      - name: List Lottery Files
+      - name: List Artifact Files
         run: find ./bin/
