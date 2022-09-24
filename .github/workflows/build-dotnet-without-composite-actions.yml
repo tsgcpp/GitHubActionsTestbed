@@ -1,0 +1,48 @@
+name: "Build Dotnet without Composite Actions"
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          lfs: true
+
+      - uses: actions/cache@v3
+        with:
+          path: ./Lottery/obj
+          key: dotnet-${{ runner.os }}-${{ github.ref_name }}
+
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Restore Packages
+        shell: bash
+        run: dotnet restore ./GitHubActionsTestbed.sln
+
+      - name: Build Projects
+        shell: bash
+        run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+
+      - name: Test Projects
+        shell: bash
+        run: dotnet test ./GitHubActionsTestbed.sln --blame
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Lottery
+          path: ./Lottery/bin/Release/net6.0
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: Lottery
+          path: ./bin
+
+      - name: List Artifact Files
+        run: find ./bin/
