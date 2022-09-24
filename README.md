@@ -5,6 +5,9 @@ Testbed examples of GitHub Actions.
 ### .github/workflows/build-dotnet.yml
 - An example with Composite Actions.
 
+### .github/workflows/build-dotnet-without-composite-actions.yml
+- An example without Composite Actions.
+
 ### .github/workflows/build-dotnet-with-pre-download.yml
 - An example with Composite Actions.
 - Preload `actions/upload-artifact` by declaring it previously.
