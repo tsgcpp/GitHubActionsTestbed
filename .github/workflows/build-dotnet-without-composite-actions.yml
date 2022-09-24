@@ -1,4 +1,4 @@
-name: "Build Dotnet"
+name: "Build Dotnet without Composite Actions"
 
 on:
   workflow_dispatch: {}
@@ -17,9 +17,24 @@ jobs:
           path: ./Lottery/obj
           key: dotnet-${{ runner.os }}-${{ github.ref_name }}
 
-      - uses: ./.github/composite/dotnet-build
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
 
-      - uses: ./.github/composite/upload-artifact
+      - name: Restore Packages
+        shell: bash
+        run: dotnet restore ./GitHubActionsTestbed.sln
+
+      - name: Build Projects
+        shell: bash
+        run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+
+      - name: Test Projects
+        shell: bash
+        run: dotnet test ./GitHubActionsTestbed.sln --blame
+
+      - uses: actions/upload-artifact@v3
         with:
           name: Lottery
           path: ./Lottery/bin/Release/net6.0

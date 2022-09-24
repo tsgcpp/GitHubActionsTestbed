@@ -4,8 +4,8 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  execute:
-    name: Composite
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       # Declare to use "actions/upload-artifact@v3" for pre-download
@@ -39,5 +39,5 @@ jobs:
           name: Lottery
           path: ./bin
 
-      - name: List Lottery Files
+      - name: List Artifact Files
         run: find ./bin/
