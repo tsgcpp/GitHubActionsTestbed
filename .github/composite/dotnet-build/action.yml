@@ -1,0 +1,21 @@
+name: 'Dotnet Build'
+description: 'Restore packages, Build and Test'
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: false
+
+    - name: Restore Packages
+      shell: bash
+      run: dotnet restore ./GitHubActionsTestbed.sln
+
+    - name: Build Projects
+      shell: bash
+      run: dotnet build ./GitHubActionsTestbed.sln --configuration Release
+
+    - name: Test Projects
+      shell: bash
+      run: dotnet test ./GitHubActionsTestbed.sln --blame
