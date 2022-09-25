@@ -1,4 +1,4 @@
-name: 'Upload Artifact with Cache'
+name: 'Upload Artifact with Set Up Actions'
 description: 'An action to create a artifact'
 inputs:
   name:

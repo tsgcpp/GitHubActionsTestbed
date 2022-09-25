@@ -1,4 +1,4 @@
-name: 'Dotnet Build'
+name: 'Dotnet Build with Set Up Actions'
 description: 'Restore packages, Build and Test'
 runs:
   using: "composite"
